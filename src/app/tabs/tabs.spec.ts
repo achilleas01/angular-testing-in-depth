@@ -35,5 +35,27 @@ describe('TabsComponent', () => {
     expect(buttons[1].nativeElement.textContent.trim()).toEqual(mockTabs[1].label);    
   });
 
+  it('should apply the active claass to the selected tab', () => {  
+    fixture.componentRef.setInput('activeTab', 'advanced');
+    fixture.detectChanges();
+    const buttons = de.queryAll(By.css(".tab-link"));
+    expect(buttons[1].nativeElement.classList).toContain('active');
+  });
+
+  it('should emit activeTab when a tab is clicked', () => {
+    const buttons = de.queryAll(By.css(".tab-link:last-child"));
+    buttons[0].nativeElement.click();
+    fixture.detectChanges();
+    expect(component.activeTab()).toBe('advanced');
+  });
+
+  it('check emitted output when a tab is clicked', () => {
+    const emitSpy =vi.spyOn(component.tabChanged, 'emit' );
+    const buttons = de.queryAll(By.css(".tab-link:last-child"));
+    buttons[0].nativeElement.click();
+    fixture.detectChanges();
+    expect(emitSpy).toHaveBeenCalledWith('advanced');
+    expect(emitSpy).toHaveBeenCalledOnce();
+  });
 
 });
