@@ -45,14 +45,15 @@ describe('CoursesPage', () => {
     fixture = TestBed.createComponent(CoursePage);
     component = fixture.componentInstance;
     de = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('it should load lessons on init', async () => {
     mockCoursesService.findLessons.mockResolvedValue(FIRST_LESSONS_PAGE);
 
     // triggers initialization and ngOnInit of the component
+    fixture.detectChanges();
     await fixture.whenStable();
+    fixture.detectChanges();
 
     expect(mockCoursesService.findLessons).toHaveBeenCalledWith(1, "", "asc", 0, 3);
     const lessons = getTableContent(de, "tbody tr td.description-cell");
